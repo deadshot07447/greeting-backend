@@ -58,7 +58,7 @@ copy .env.example .env
 Then edit .env with your MySQL credentials:
 
 ```env
-PORT=3000
+PORT=5000
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
@@ -97,5 +97,5 @@ Example response:
 ## Health Check
 
 ```bash
-curl http://localhost:3000/health
+curl http://localhost:5000/health
 ```
