@@ -1,7 +1,12 @@
 pipeline {
     agent any
 
+    options {
+        skipDefaultCheckout()
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
@@ -11,20 +16,30 @@ pipeline {
 
         stage('Verify Environment') {
             steps {
-                echo 'Running on Jenkins'
                 sh 'pwd'
-                sh 'ls -la'
+                sh 'which git'
+                sh 'git --version'
+                sh 'which node || true'
+                sh 'node --version || true'
+                sh 'which npm || true'
+                sh 'npm --version || true'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
             }
         }
     }
 
     post {
         success {
-            echo 'Backend pipeline completed successfully.'
+            echo 'Backend CI completed successfully.'
         }
 
         failure {
-            echo 'Backend pipeline failed.'
+            echo 'Backend CI failed.'
         }
 
         always {
