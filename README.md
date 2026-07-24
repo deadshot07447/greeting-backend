@@ -84,6 +84,8 @@ npm start
 
 ### GET /api/greeting
 
+Each request returns a random greeting from the database.
+
 Example response:
 
 ```json
