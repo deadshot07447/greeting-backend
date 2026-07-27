@@ -12,8 +12,7 @@ pipeline {
                 script {
                     echo "Building and deploying to QA..."
                     sh "docker build -t ${APP_NAME}:qa ."
-                    sh "docker rm -f ${APP_NAME}-qa || true"
-                    sh "docker run -d --name ${APP_NAME}-qa -p 3001:3000 ${APP_NAME}:qa"
+                    sh "ENV_TAG=qa APP_PORT=3001 DB_PORT=3307 docker compose -p ${APP_NAME}-qa up -d --force-recreate"
                 }
             }
         }
@@ -25,8 +24,7 @@ pipeline {
                 script {
                     echo "Building and deploying to Prod..."
                     sh "docker build -t ${APP_NAME}:prod ."
-                    sh "docker rm -f ${APP_NAME}-prod || true"
-                    sh "docker run -d --name ${APP_NAME}-prod -p 3002:3000 ${APP_NAME}:prod"
+                    sh "ENV_TAG=prod APP_PORT=3002 DB_PORT=3308 docker compose -p ${APP_NAME}-prod up -d --force-recreate"
                 }
             }
         }

@@ -36,3 +36,9 @@ SELECT 'Have a nice day from the MySQL API!'
 WHERE NOT EXISTS (
   SELECT 1 FROM messages WHERE message = 'Have a nice day from the MySQL API!'
 );
+
+INSERT INTO messages (message)
+SELECT '🚀 This greeting comes directly from your newly deployed MySQL Database! 🚀'
+WHERE NOT EXISTS (
+  SELECT 1 FROM messages WHERE message = '🚀 This greeting comes directly from your newly deployed MySQL Database! 🚀'
+);
