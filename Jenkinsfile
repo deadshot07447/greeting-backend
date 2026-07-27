@@ -1,49 +1,34 @@
 pipeline {
     agent any
-
-    options {
-        skipDefaultCheckout()
+    environment {
+        APP_NAME = 'greeting-backend'
     }
-
     stages {
-
-        stage('Checkout') {
+        stage('Build and Deploy QA') {
+            when {
+                branch 'qa'
+            }
             steps {
-                echo 'Checking out source code...'
-                checkout scm
+                script {
+                    echo "Building and deploying to QA..."
+                    sh "docker build -t ${APP_NAME}:qa ."
+                    sh "docker rm -f ${APP_NAME}-qa || true"
+                    sh "docker run -d --name ${APP_NAME}-qa -p 3001:3000 ${APP_NAME}:qa"
+                }
             }
         }
-
-        stage('Verify Environment') {
-            steps {
-                sh 'pwd'
-                sh 'which git'
-                sh 'git --version'
-                sh 'which node || true'
-                sh 'node --version || true'
-                sh 'which npm || true'
-                sh 'npm --version || true'
+        stage('Build and Deploy Prod') {
+            when {
+                branch 'prod'
             }
-        }
-
-        stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                script {
+                    echo "Building and deploying to Prod..."
+                    sh "docker build -t ${APP_NAME}:prod ."
+                    sh "docker rm -f ${APP_NAME}-prod || true"
+                    sh "docker run -d --name ${APP_NAME}-prod -p 3002:3000 ${APP_NAME}:prod"
+                }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Backend CI completed successfully.'
-        }
-
-        failure {
-            echo 'Backend CI failed.'
-        }
-
-        always {
-            echo 'Pipeline execution finished.'
         }
     }
 }
