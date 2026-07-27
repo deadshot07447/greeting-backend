@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok - tested via pipeline v2!' });
+  res.status(200).json({ status: 'okay' });
 });
 
 app.use('/api', greetingRoutes);
