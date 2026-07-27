@@ -38,7 +38,7 @@ WHERE NOT EXISTS (
 );
 
 INSERT INTO messages (message)
-SELECT '🚀 This greeting comes directly from your newly deployed MySQL Database! 🚀'
+SELECT 'This greeting comes directly from your newly deployed MySQL Database!'
 WHERE NOT EXISTS (
-  SELECT 1 FROM messages WHERE message = '🚀 This greeting comes directly from your newly deployed MySQL Database! 🚀'
+  SELECT 1 FROM messages WHERE message = 'This greeting comes directly from your newly deployed MySQL Database!'
 );
